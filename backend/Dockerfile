@@ -2,6 +2,9 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+# Install openssh-client for SSH execution mode
+RUN apk add --no-cache openssh-client
+
 # Copy package files
 COPY package*.json ./
 
