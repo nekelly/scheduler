@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nul)",
+      "Bash(dir:*)",
+      "Bash(git config:*)",
+      "Bash(if [ -f ./nul ])",
+      "Bash(then rm ./nul)",
+      "Bash(fi)",
+      "Bash(docker-compose build:*)",
+      "Bash(docker-compose ps:*)",
+      "Bash(timeout 10 docker-compose logs:*)",
+      "Bash(curl:*)",
+      "Bash(docker-compose:*)",
+      "Bash(docker exec:*)",
+      "Bash(docker inspect:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

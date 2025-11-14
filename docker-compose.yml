@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: scheduler-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - scheduler-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: scheduler-backend
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      BACKEND_PORT: 3001
+      NODE_ENV: production
+      LOG_RETENTION_COUNT: ${LOG_RETENTION_COUNT:-100}
+      EXECUTION_MODE: ${EXECUTION_MODE:-local}
+      SSH_HOST: ${SSH_HOST:-host.docker.internal}
+      SSH_PORT: ${SSH_PORT:-22}
+      SSH_USER: ${SSH_USER:-jobrunner}
+      SSH_PRIVATE_KEY_PATH: /root/.ssh/id_rsa
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./ssh-keys:/root/.ssh:ro  # Mount SSH keys (create this directory)
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - scheduler-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: scheduler-frontend
+    environment:
+      REACT_APP_API_URL: http://localhost:3001
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - scheduler-network
+    restart: unless-stopped
+
+networks:
+  scheduler-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
