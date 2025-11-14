@@ -105,7 +105,7 @@ cp .env.example .env
 - `FRONTEND_PORT` - Frontend host port (default: `3000`)
 - `FRONTEND_CONTAINER_PORT` - Frontend container port (default: `3000`)
 - `REACT_APP_API_URL` - Backend API URL for frontend (default: `http://localhost:3001`)
-- `MYSQL_PORT` - MySQL database port (default: `3306`)
+- `MYSQL_PORT` - MySQL host port mapping (default: `3306`, container always uses 3306 internally)
 
 #### Job Execution
 - `EXECUTION_MODE` - Where to execute jobs (default: `local`)

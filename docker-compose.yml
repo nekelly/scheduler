@@ -29,7 +29,7 @@ services:
     container_name: scheduler-backend
     environment:
       MYSQL_HOST: ${MYSQL_HOST:-mysql}
-      MYSQL_PORT: ${MYSQL_PORT:-3306}
+      MYSQL_PORT: 3306
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -59,6 +59,8 @@ services:
     container_name: scheduler-frontend
     environment:
       REACT_APP_API_URL: ${REACT_APP_API_URL:-http://localhost:3001}
+      FRONTEND_CONTAINER_PORT: ${FRONTEND_CONTAINER_PORT:-3000}
+      BACKEND_PORT: ${BACKEND_PORT:-3001}
     ports:
       - "${FRONTEND_PORT:-3000}:${FRONTEND_CONTAINER_PORT:-3000}"
     depends_on:

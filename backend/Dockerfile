@@ -14,7 +14,7 @@ COPY . .
 # Build TypeScript
 RUN npm run build
 
-# Expose port
+# Expose port (will be overridden by docker-compose)
 EXPOSE 3001
 
 # Start application
