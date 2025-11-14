@@ -95,6 +95,17 @@ npm start
 
 ### Environment Variables
 
+Copy `.env.example` to `.env` and adjust values as needed:
+```bash
+cp .env.example .env
+```
+
+#### Port Configuration
+- `BACKEND_PORT` - Backend API server port (default: `3001`)
+- `PORT` - Frontend development server port (default: `3000`)
+- `REACT_APP_API_URL` - Backend API URL for frontend (default: `http://localhost:3001`)
+- `MYSQL_PORT` - MySQL database port (default: `3306`)
+
 #### Job Execution
 - `EXECUTION_MODE` - Where to execute jobs (default: `local`)
   - `local`: Run commands inside the backend container (isolated)
