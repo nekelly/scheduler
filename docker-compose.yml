@@ -36,8 +36,8 @@ services:
       BACKEND_PORT: ${BACKEND_PORT:-3001}
       NODE_ENV: ${NODE_ENV:-production}
       LOG_RETENTION_COUNT: ${LOG_RETENTION_COUNT:-100}
-      EXECUTION_MODE: ${EXECUTION_MODE:-local}
-      SSH_HOST: ${SSH_HOST:-host.docker.internal}
+      EXECUTION_MODE: ssh
+      SSH_HOST: ${SSH_HOST}
       SSH_PORT: ${SSH_PORT:-22}
       SSH_USER: ${SSH_USER:-jobrunner}
       SSH_PRIVATE_KEY_PATH: /root/.ssh/id_rsa
